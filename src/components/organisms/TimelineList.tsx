@@ -3,8 +3,11 @@ import type { TimelineEvent } from '../../types/event';
 import { COPY } from '../../constants/copy';
 import { groupEventsByYear, sortEventsChronologically, formatMonthYear } from '../../utils/date';
 import { useAccessibility } from '../../hooks/useAccessibility';
+import { useIdentity } from '../../hooks/useIdentity';
+import { useEvents } from '../../hooks/useEvents';
 import { EventCard } from '../molecules/EventCard';
 import { DateFinder, type DateOption } from '../molecules/DateFinder';
+import { ConfirmDialog } from '../molecules/ConfirmDialog';
 import { Text } from '../atoms/Text';
 import styles from './TimelineList.module.css';
 
@@ -26,8 +29,11 @@ function yearAnchorId(year: number): string {
 
 export function TimelineList({ events }: TimelineListProps) {
   const { settings } = useAccessibility();
+  const { memberId } = useIdentity();
+  const { deleteEvent } = useEvents();
   const [collapsedYears, setCollapsedYears] = useState<Set<number>>(new Set());
   const [pendingScrollTarget, setPendingScrollTarget] = useState<string | null>(null);
+  const [deletingEvent, setDeletingEvent] = useState<TimelineEvent | null>(null);
 
   const groups = useMemo(() => groupEventsByYear(sortEventsChronologically(events)), [events]);
 
@@ -136,12 +142,33 @@ export function TimelineList({ events }: TimelineListProps) {
                 <span className={styles.eventNode} />
               </div>
               <div className={styles.eventContent}>
-                <EventCard event={row.event} />
+                <EventCard
+                  event={row.event}
+                  canDelete={row.event.createdBy === memberId}
+                  onDelete={() => setDeletingEvent(row.event)}
+                />
               </div>
             </li>
           );
         })}
       </ol>
+
+      {deletingEvent && (
+        <ConfirmDialog
+          title={COPY.confirmDelete.title}
+          message={COPY.confirmDelete.message}
+          confirmLabel={COPY.confirmDelete.confirm}
+          cancelLabel={COPY.eventForm.cancel}
+          onCancel={() => setDeletingEvent(null)}
+          onConfirm={async () => {
+            try {
+              await deleteEvent(deletingEvent);
+            } finally {
+              setDeletingEvent(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

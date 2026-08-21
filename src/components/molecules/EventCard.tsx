@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { TimelineEvent } from '../../types/event';
 import { MONTH_NAMES } from '../../constants/config';
 import { getMember } from '../../constants/members';
+import { COPY } from '../../constants/copy';
 import { HexTile } from '../atoms/HexTile';
 import { Text } from '../atoms/Text';
 import { Avatar } from '../atoms/Avatar';
@@ -9,9 +10,11 @@ import styles from './EventCard.module.css';
 
 interface EventCardProps {
   event: TimelineEvent;
+  canDelete?: boolean;
+  onDelete?: () => void;
 }
 
-export function EventCard({ event }: EventCardProps) {
+export function EventCard({ event, canDelete, onDelete }: EventCardProps) {
   const [expanded, setExpanded] = useState(false);
   const creator = getMember(event.createdBy);
 
@@ -30,6 +33,11 @@ export function EventCard({ event }: EventCardProps) {
       {expanded && (
         <div className={styles.details}>
           <Text color="secondary">{event.description}</Text>
+          {canDelete && onDelete && (
+            <button type="button" className={styles.deleteButton} onClick={onDelete}>
+              {COPY.timeline.delete}
+            </button>
+          )}
         </div>
       )}
     </article>

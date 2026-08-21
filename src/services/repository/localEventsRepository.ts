@@ -95,5 +95,9 @@ export function createLocalEventsRepository(): EventsRepository {
       });
       writeEvents(events);
     },
+
+    async deleteEvent(event: TimelineEvent) {
+      writeEvents(readEvents().filter((current) => current.id !== event.id));
+    },
   };
 }

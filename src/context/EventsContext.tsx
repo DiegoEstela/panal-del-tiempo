@@ -9,6 +9,7 @@ interface EventsContextValue {
   createEvent: (input: EventFormInput, createdBy: MemberId) => Promise<void>;
   updateEvent: (event: TimelineEvent, input: EventFormInput) => Promise<void>;
   setValidation: (event: TimelineEvent, member: MemberId, status: ValidationStatus, comment?: string) => Promise<void>;
+  deleteEvent: (event: TimelineEvent) => Promise<void>;
 }
 
 export const EventsContext = createContext<EventsContextValue | undefined>(undefined);
@@ -33,6 +34,7 @@ export function EventsProvider({ children }: { children: ReactNode }) {
       createEvent: (input, createdBy) => repository.createEvent(input, createdBy),
       updateEvent: (event, input) => repository.updateEvent(event, input),
       setValidation: (event, member, status, comment) => repository.setValidation(event, member, status, comment),
+      deleteEvent: (event) => repository.deleteEvent(event),
     }),
     [events, loading, repository],
   );

@@ -5,8 +5,10 @@
 // 4 amigos, así que estas reglas solo restringen la forma de los datos,
 // no "quién" escribe. Cualquiera con el link de la app (y las claves
 // públicas de Firebase, que siempre viajan en el bundle del cliente)
-// podría en teoría escribir en esta colección. Es un riesgo aceptable
-// para un proyecto entre amigos, pero no lo uses para datos sensibles.
+// podría en teoría escribir o borrar en esta colección. Es un riesgo
+// aceptable para un proyecto entre amigos, pero no lo uses para datos
+// sensibles. El permiso "solo quien lo creó puede borrar/editar" se
+// aplica del lado de la app (UI), no acá, por la misma razón.
 
 rules_version = '2';
 
@@ -19,7 +21,7 @@ service cloud.firestore {
         'createdBy', 'createdAt', 'updatedAt', 'status', 'validations', 'comments'
       ]);
       allow update: if true;
-      allow delete: if false;
+      allow delete: if true;
     }
   }
 }

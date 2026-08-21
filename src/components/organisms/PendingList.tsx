@@ -5,6 +5,7 @@ import { useEvents } from '../../hooks/useEvents';
 import { isMineAndPending, isPendingForMember } from '../../utils/validation';
 import { COPY } from '../../constants/copy';
 import { PendingEventCard } from '../molecules/PendingEventCard';
+import { ConfirmDialog } from '../molecules/ConfirmDialog';
 import { ValidationActions } from './ValidationActions';
 import { EventForm } from './EventForm';
 import { Modal } from '../molecules/Modal';
@@ -14,8 +15,9 @@ import styles from './PendingList.module.css';
 
 export function PendingList() {
   const { memberId } = useIdentity();
-  const { events, updateEvent, setValidation } = useEvents();
+  const { events, updateEvent, setValidation, deleteEvent } = useEvents();
   const [editingEvent, setEditingEvent] = useState<TimelineEvent | null>(null);
+  const [deletingEvent, setDeletingEvent] = useState<TimelineEvent | null>(null);
 
   if (!memberId) return null;
 
@@ -37,9 +39,14 @@ export function PendingList() {
                 key={event.id}
                 event={event}
                 actions={
-                  <Button variant="ghost" onClick={() => setEditingEvent(event)}>
-                    {COPY.pending.edit}
-                  </Button>
+                  <>
+                    <Button variant="ghost" onClick={() => setEditingEvent(event)}>
+                      {COPY.pending.edit}
+                    </Button>
+                    <Button variant="danger" onClick={() => setDeletingEvent(event)}>
+                      {COPY.pending.delete}
+                    </Button>
+                  </>
                 }
               />
             ))}
@@ -82,6 +89,23 @@ export function PendingList() {
             }}
           />
         </Modal>
+      )}
+
+      {deletingEvent && (
+        <ConfirmDialog
+          title={COPY.confirmDelete.title}
+          message={COPY.confirmDelete.message}
+          confirmLabel={COPY.confirmDelete.confirm}
+          cancelLabel={COPY.eventForm.cancel}
+          onCancel={() => setDeletingEvent(null)}
+          onConfirm={async () => {
+            try {
+              await deleteEvent(deletingEvent);
+            } finally {
+              setDeletingEvent(null);
+            }
+          }}
+        />
       )}
     </div>
   );

@@ -27,7 +27,19 @@
 }
 
 .details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
   padding: 0 var(--space-4) var(--space-5) calc(56px + var(--space-4) + var(--space-4));
+}
+
+.deleteButton {
+  color: var(--color-review);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  min-height: var(--touch-target);
+  padding: 0 var(--space-2);
 }
 
 @media (max-width: 560px) {

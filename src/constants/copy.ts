@@ -14,8 +14,7 @@ export const COPY = {
     searchPlaceholder: 'Buscar por mes o año...',
     searchLabel: 'Buscar una fecha con recuerdos',
     searchNoResults: 'No hay recuerdos en esa fecha.',
-    collapseYear: 'Contraer',
-    expandYear: 'Expandir',
+    delete: 'Borrar recuerdo',
   },
   eventForm: {
     createTitle: 'Nuevo recuerdo',
@@ -38,9 +37,15 @@ export const COPY = {
     review: 'Marcar para revisar',
     reviewCommentPlaceholder: 'Contale a quien lo creó qué falta...',
     edit: 'Editar',
+    delete: 'Borrar',
     statusValidated: 'Validado',
     statusPending: 'Pendiente',
     statusReview: 'A revisar',
+  },
+  confirmDelete: {
+    title: '¿Borrar este recuerdo?',
+    message: 'Esta acción no se puede deshacer y desaparece para todo el panal.',
+    confirm: 'Borrar',
   },
   accessibility: {
     panelTitle: 'Accesibilidad',

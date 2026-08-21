@@ -6,4 +6,5 @@ export interface EventsRepository {
   createEvent(input: EventFormInput, createdBy: MemberId): Promise<void>;
   updateEvent(event: TimelineEvent, input: EventFormInput): Promise<void>;
   setValidation(event: TimelineEvent, member: MemberId, status: ValidationStatus, comment?: string): Promise<void>;
+  deleteEvent(event: TimelineEvent): Promise<void>;
 }

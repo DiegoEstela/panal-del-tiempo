@@ -1,4 +1,4 @@
-import { collection, onSnapshot, addDoc, updateDoc, doc, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import type { EventsRepository } from './EventsRepository';
 import type { TimelineEvent, EventFormInput, ValidationStatus } from '../../types/event';
 import type { MemberId } from '../../types/member';
@@ -65,6 +65,10 @@ export function createFirestoreEventsRepository(): EventsRepository {
         comments,
         status: isFullyValidated(validations, event.createdBy) ? 'validated' : event.status,
       });
+    },
+
+    async deleteEvent(event: TimelineEvent) {
+      await deleteDoc(doc(db, COLLECTION_NAME, event.id));
     },
   };
 }
