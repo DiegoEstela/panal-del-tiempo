@@ -1,0 +1,26 @@
+.hex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  flex-shrink: 0;
+  font-weight: 700;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  line-height: 1.1;
+}
+
+.primary {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+.accent {
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+}
+.neutral {
+  background-color: var(--color-pending-soft);
+  color: var(--color-pending);
+}

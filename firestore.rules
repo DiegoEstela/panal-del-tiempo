@@ -1,0 +1,25 @@
+// Reglas sugeridas para el proyecto de Firestore de "El Panal del Tiempo".
+// Copiá este contenido en Firebase Console > Firestore Database > Reglas.
+//
+// No hay autenticación (login/contraseña) porque es una app privada para
+// 4 amigos, así que estas reglas solo restringen la forma de los datos,
+// no "quién" escribe. Cualquiera con el link de la app (y las claves
+// públicas de Firebase, que siempre viajan en el bundle del cliente)
+// podría en teoría escribir en esta colección. Es un riesgo aceptable
+// para un proyecto entre amigos, pero no lo uses para datos sensibles.
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /events/{eventId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll([
+        'title', 'description', 'month', 'year',
+        'createdBy', 'createdAt', 'updatedAt', 'status', 'validations', 'comments'
+      ]);
+      allow update: if true;
+      allow delete: if false;
+    }
+  }
+}

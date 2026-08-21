@@ -1,0 +1,78 @@
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background-image: linear-gradient(
+      30deg,
+      var(--color-hex-line) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-hex-line) 87.5%,
+      var(--color-hex-line)
+    ),
+    linear-gradient(
+      150deg,
+      var(--color-hex-line) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-hex-line) 87.5%,
+      var(--color-hex-line)
+    ),
+    linear-gradient(
+      30deg,
+      var(--color-hex-line) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-hex-line) 87.5%,
+      var(--color-hex-line)
+    ),
+    linear-gradient(
+      150deg,
+      var(--color-hex-line) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      var(--color-hex-line) 87.5%,
+      var(--color-hex-line)
+    ),
+    linear-gradient(
+      60deg,
+      var(--color-hex-line-strong) 25%,
+      transparent 25.5%,
+      transparent 75%,
+      var(--color-hex-line-strong) 75%,
+      var(--color-hex-line-strong)
+    ),
+    linear-gradient(
+      60deg,
+      var(--color-hex-line-strong) 25%,
+      transparent 25.5%,
+      transparent 75%,
+      var(--color-hex-line-strong) 75%,
+      var(--color-hex-line-strong)
+    );
+  background-size: 96px 168px;
+  background-position: 0 0, 0 0, 48px 84px, 48px 84px, 0 0, 48px 84px;
+  background-attachment: fixed;
+}
+
+:root[data-contrast='high'] body {
+  background-image: none;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

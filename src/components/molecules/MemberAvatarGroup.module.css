@@ -1,0 +1,37 @@
+.group {
+  display: flex;
+  gap: var(--space-3);
+}
+.item {
+  position: relative;
+}
+.statusDot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  border: 2px solid var(--color-bg-elevated);
+}
+.validated {
+  background-color: var(--color-accent);
+  color: var(--color-text-inverted);
+}
+.review {
+  background-color: var(--color-review);
+  color: var(--color-text-inverted);
+}
+.pending {
+  background-color: var(--color-pending-soft);
+  color: var(--color-pending);
+}
+.creator {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverted);
+}

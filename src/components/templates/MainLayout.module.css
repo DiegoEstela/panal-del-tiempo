@@ -1,0 +1,31 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) calc(var(--space-7) * 2);
+}
+
+.fab {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-5);
+  width: 60px;
+  height: 60px;
+  z-index: 40;
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: var(--space-5) var(--space-4) calc(80px + var(--space-6));
+  }
+  .fab {
+    bottom: calc(72px + var(--space-4));
+  }
+}

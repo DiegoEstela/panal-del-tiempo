@@ -1,0 +1,27 @@
+.switch {
+  position: relative;
+  width: 52px;
+  height: 30px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-switch-track-off);
+  transition: background-color var(--transition-fast);
+  flex-shrink: 0;
+}
+.on {
+  background-color: var(--color-primary);
+}
+
+.thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-elevated);
+  transition: transform var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+.on .thumb {
+  transform: translateX(22px);
+}

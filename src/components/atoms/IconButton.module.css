@@ -1,0 +1,33 @@
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border-radius: var(--radius-full);
+  transition:
+    transform var(--transition-fast),
+    background-color var(--transition-base);
+  flex-shrink: 0;
+}
+.iconButton:active {
+  transform: scale(0.94);
+}
+
+.solid {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverted);
+  box-shadow: var(--shadow-md);
+}
+.solid:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.soft {
+  background-color: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+.soft:hover {
+  background-color: var(--color-primary-soft);
+}

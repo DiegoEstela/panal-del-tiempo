@@ -1,0 +1,12 @@
+.thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.comment {
+  display: flex;
+  gap: var(--space-3);
+  background-color: var(--color-review-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
