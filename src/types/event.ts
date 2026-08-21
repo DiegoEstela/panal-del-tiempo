@@ -31,4 +31,5 @@ export interface EventFormInput {
   description: string;
   month: number;
   year: number;
+  photoURL?: string;
 }

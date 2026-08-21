@@ -49,6 +49,7 @@ export function AssistedTimeline({ events }: AssistedTimelineProps) {
       </Text>
 
       <div className={styles.card}>
+        {current.photoURL && <img src={current.photoURL} alt="" className={styles.photo} />}
         <Avatar member={creator} size="lg" />
         <Text as="h2" variant="title" className={styles.title}>
           {current.title}

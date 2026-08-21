@@ -26,6 +26,7 @@ export function PendingEventCard({ event, actions, onListen }: PendingEventCardP
         </div>
         <MemberAvatarGroup validations={event.validations} createdBy={event.createdBy} />
       </div>
+      {event.photoURL && <img src={event.photoURL} alt="" className={styles.photo} />}
       <Text color="secondary">{event.description}</Text>
       {onListen && (
         <Button variant="secondary" onClick={onListen}>

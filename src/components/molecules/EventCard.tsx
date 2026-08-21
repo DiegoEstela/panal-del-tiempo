@@ -32,6 +32,7 @@ export function EventCard({ event, canDelete, onDelete }: EventCardProps) {
       </button>
       {expanded && (
         <div className={styles.details}>
+          {event.photoURL && <img src={event.photoURL} alt="" className={styles.photo} />}
           <Text color="secondary">{event.description}</Text>
           {canDelete && onDelete && (
             <button type="button" className={styles.deleteButton} onClick={onDelete}>

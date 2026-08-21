@@ -9,3 +9,28 @@
   gap: var(--space-3);
   padding-top: var(--space-2);
 }
+
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.photoPreview {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+}
+
+.photoActions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}

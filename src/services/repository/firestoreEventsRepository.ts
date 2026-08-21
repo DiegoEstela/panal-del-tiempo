@@ -1,4 +1,4 @@
-import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, deleteField, doc, query, orderBy } from 'firebase/firestore';
 import type { EventsRepository } from './EventsRepository';
 import type { TimelineEvent, EventFormInput, ValidationStatus } from '../../types/event';
 import type { MemberId } from '../../types/member';
@@ -40,11 +40,13 @@ export function createFirestoreEventsRepository(): EventsRepository {
         status: 'pending',
         validations: createInitialValidations(createdBy, MEMBER_IDS),
         comments: [],
+        ...(input.photoURL ? { photoURL: input.photoURL } : {}),
       };
       await addDoc(eventsCollection, newEvent);
     },
 
     async updateEvent(event: TimelineEvent, input: EventFormInput) {
+      const photoUpdate = input.photoURL ? { photoURL: input.photoURL } : event.photoURL ? { photoURL: deleteField() } : {};
       await updateDoc(doc(db, COLLECTION_NAME, event.id), {
         title: input.title,
         description: input.description,
@@ -52,6 +54,7 @@ export function createFirestoreEventsRepository(): EventsRepository {
         year: input.year,
         updatedAt: Date.now(),
         validations: resetPeerValidations(event),
+        ...photoUpdate,
       });
     },
 

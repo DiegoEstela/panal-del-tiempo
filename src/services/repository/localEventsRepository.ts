@@ -53,6 +53,7 @@ export function createLocalEventsRepository(): EventsRepository {
         description: input.description,
         month: input.month,
         year: input.year,
+        photoURL: input.photoURL,
         createdBy,
         createdAt: now,
         updatedAt: now,
@@ -72,6 +73,7 @@ export function createLocalEventsRepository(): EventsRepository {
           description: input.description,
           month: input.month,
           year: input.year,
+          photoURL: input.photoURL,
           updatedAt: Date.now(),
           validations: resetPeerValidations(current),
         };
