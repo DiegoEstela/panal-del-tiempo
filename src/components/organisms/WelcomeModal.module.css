@@ -18,17 +18,21 @@
   padding: var(--space-4);
   border-radius: var(--radius-md);
   border: 2px solid transparent;
-  background-color: var(--color-surface);
+  background: var(--gradient-surface);
+  box-shadow: var(--shadow-sm);
   transition:
     border-color var(--transition-fast),
+    box-shadow var(--transition-base),
     transform var(--transition-fast);
   min-height: calc(var(--touch-target) * 2);
 }
 
 .option:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 .selected {
   border-color: var(--color-primary);
-  background-color: var(--color-primary-soft);
+  background: var(--color-primary-soft);
+  box-shadow: var(--shadow-glow);
 }

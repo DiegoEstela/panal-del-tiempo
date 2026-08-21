@@ -6,8 +6,15 @@ export const COPY = {
     confirm: 'Entrar al panal',
   },
   nav: {
+    home: 'Inicio',
     timeline: 'Línea de tiempo',
     pending: 'Pendientes',
+  },
+  home: {
+    title: 'Un día como hoy',
+    thisMonth: 'Este mes',
+    empty: 'Todavía no hay recuerdos de este mes en años anteriores.',
+    ctaTimeline: 'Ver toda la línea de tiempo',
   },
   timeline: {
     empty: 'Todavía no hay recuerdos validados. ¡Sumá el primero!',

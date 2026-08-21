@@ -7,7 +7,8 @@
   border-radius: var(--radius-full);
   transition:
     transform var(--transition-fast),
-    background-color var(--transition-base);
+    box-shadow var(--transition-base),
+    filter var(--transition-base);
   flex-shrink: 0;
 }
 .iconButton:active {
@@ -15,12 +16,13 @@
 }
 
 .solid {
-  background-color: var(--color-primary);
+  background: var(--gradient-primary);
   color: var(--color-text-inverted);
   box-shadow: var(--shadow-md);
 }
 .solid:hover {
-  background-color: var(--color-primary-dark);
+  box-shadow: var(--shadow-glow);
+  filter: brightness(1.05);
 }
 
 .soft {

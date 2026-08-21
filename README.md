@@ -41,6 +41,13 @@ cp .env.example .env.local
 > ser un grupo cerrado de 4 amigos, la identidad se elige una sola vez
 > desde el cartel de bienvenida y queda guardada en el dispositivo.
 
+## Instalarla como app (PWA)
+
+Es instalable: en el navegador (Chrome/Edge en desktop o Android, Safari en
+iOS con "Agregar a inicio") aparece la opción de instalar "El Panal del
+Tiempo" como si fuera una app nativa, con su propio ícono. Esto solo
+funciona en HTTPS, así que probalo sobre la URL de Vercel, no en local.
+
 ## Build y deploy
 
 ```bash
@@ -58,20 +65,20 @@ si querés que el deploy use Firebase en vez del modo local.
 ```
 src/
   components/
-    atoms/        Button, TextField, Avatar, Switch, HexTile...
-    molecules/     FormField, EventCard, PendingEventCard, Modal...
-    organisms/     WelcomeModal, EventForm, TimelineList, AccessibilityPanel...
+    atoms/        Button, TextField, Avatar, HexTile...
+    molecules/     FormField, EventCard, PendingEventCard, Modal, DateFinder, ConfirmDialog...
+    organisms/     WelcomeModal, EventForm, TimelineList, OnThisDay, AssistedTimeline, AssistedModeButton...
     templates/     MainLayout
-  pages/          TimelineView, PendingView
+  pages/          HomeView, TimelineView, PendingView
   context/        IdentityContext, AccessibilityContext, EventsContext
-  hooks/          useIdentity, useAccessibility, useEvents
+  hooks/          useIdentity, useAccessibility, useEvents, useSpeech
   services/
     repository/    EventsRepository (interfaz) + implementación local y Firestore
     firebase/       cliente de Firebase
   constants/      members.ts, copy.ts, config.ts
   types/          member.ts, event.ts
-  utils/          date.ts, validation.ts, id.ts
-  styles/         tokens.css (colores/tipografía/espaciado), reset.css, global.css
+  utils/          date.ts, validation.ts, id.ts, image.ts, speechText.ts
+  styles/         tokens.css (colores/tipografía/espaciado/gradientes/sombras), reset.css, global.css
 ```
 
 Organización por **atomic design** (atoms → molecules → organisms →
@@ -82,8 +89,6 @@ hooks, servicios). Los colores, textos y valores repetidos viven en
 ## Versión 2 (pendiente, no implementada todavía)
 
 - Subir foto de perfil y cambiar el nombre de cada miembro.
-- Foto adjunta por recuerdo.
 
-El modelo de datos (`types/member.ts`, `types/event.ts`) ya tiene los
-campos opcionales (`photoURL`, etc.) previstos para que sumar esto sea
-chico.
+El modelo de datos (`types/member.ts`) ya tiene los campos opcionales
+(`photoURL`, etc.) previstos para que sumar esto sea chico.

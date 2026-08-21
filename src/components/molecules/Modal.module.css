@@ -1,8 +1,8 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(43, 36, 32, 0.45);
-  backdrop-filter: blur(6px);
+  background-color: rgba(43, 36, 32, 0.5);
+  backdrop-filter: blur(10px) saturate(140%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +11,8 @@
 }
 
 .panel {
-  background-color: var(--color-bg-elevated);
+  background: var(--gradient-surface);
+  border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   max-width: 480px;

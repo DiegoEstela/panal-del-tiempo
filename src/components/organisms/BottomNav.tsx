@@ -22,6 +22,14 @@ export function BottomNav({ view, onChangeView }: BottomNavProps) {
     <nav className={styles.bar}>
       <button
         type="button"
+        className={[styles.tab, view === 'home' ? styles.active : ''].join(' ')}
+        onClick={() => onChangeView('home')}
+      >
+        <HomeIcon />
+        <span>{COPY.nav.home}</span>
+      </button>
+      <button
+        type="button"
         className={[styles.tab, view === 'timeline' ? styles.active : ''].join(' ')}
         onClick={() => onChangeView('timeline')}
       >
@@ -38,6 +46,20 @@ export function BottomNav({ view, onChangeView }: BottomNavProps) {
         {pendingCount > 0 && <span className={styles.count}>{pendingCount}</span>}
       </button>
     </nav>
+  );
+}
+
+function HomeIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

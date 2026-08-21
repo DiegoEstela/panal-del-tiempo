@@ -7,7 +7,7 @@ import { Avatar } from '../atoms/Avatar';
 import { Text } from '../atoms/Text';
 import styles from './AppHeader.module.css';
 
-export type ViewKey = 'timeline' | 'pending';
+export type ViewKey = 'home' | 'timeline' | 'pending';
 
 interface AppHeaderProps {
   view: ViewKey;
@@ -34,6 +34,13 @@ export function AppHeader({ view, onChangeView }: AppHeaderProps) {
       </div>
 
       <nav className={styles.nav}>
+        <button
+          type="button"
+          className={[styles.tab, view === 'home' ? styles.active : ''].join(' ')}
+          onClick={() => onChangeView('home')}
+        >
+          {COPY.nav.home}
+        </button>
         <button
           type="button"
           className={[styles.tab, view === 'timeline' ? styles.active : ''].join(' ')}

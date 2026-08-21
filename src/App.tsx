@@ -5,13 +5,14 @@ import { EventsProvider } from './context/EventsContext';
 import { useIdentity } from './hooks/useIdentity';
 import { WelcomeModal } from './components/organisms/WelcomeModal';
 import { MainLayout } from './components/templates/MainLayout';
+import { HomeView } from './pages/HomeView';
 import { TimelineView } from './pages/TimelineView';
 import { PendingView } from './pages/PendingView';
 import type { ViewKey } from './components/organisms/AppHeader';
 
 function AppShell() {
   const { memberId, setMemberId } = useIdentity();
-  const [view, setView] = useState<ViewKey>('timeline');
+  const [view, setView] = useState<ViewKey>('home');
 
   if (!memberId) {
     return <WelcomeModal onSelect={setMemberId} />;
@@ -19,7 +20,9 @@ function AppShell() {
 
   return (
     <MainLayout view={view} onChangeView={setView}>
-      {view === 'timeline' ? <TimelineView /> : <PendingView />}
+      {view === 'home' && <HomeView onGoToTimeline={() => setView('timeline')} />}
+      {view === 'timeline' && <TimelineView />}
+      {view === 'pending' && <PendingView />}
     </MainLayout>
   );
 }

@@ -13,8 +13,9 @@
 }
 
 .primary {
-  background-color: var(--color-primary-soft);
-  color: var(--color-primary-dark);
+  background: var(--gradient-primary);
+  color: var(--color-text-inverted);
+  box-shadow: var(--shadow-sm);
 }
 .accent {
   background-color: var(--color-accent-soft);
