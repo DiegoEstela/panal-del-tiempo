@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { AppHeader, type ViewKey } from '../organisms/AppHeader';
 import { BottomNav } from '../organisms/BottomNav';
-import { AccessibilityPanel } from '../organisms/AccessibilityPanel';
+import { AssistedModeButton } from '../organisms/AssistedModeButton';
 import { EventForm } from '../organisms/EventForm';
 import { Modal } from '../molecules/Modal';
 import { IconButton } from '../atoms/IconButton';
@@ -26,7 +26,7 @@ export function MainLayout({ view, onChangeView, children }: MainLayoutProps) {
       <AppHeader view={view} onChangeView={onChangeView} />
       <main className={styles.main}>{children}</main>
       <BottomNav view={view} onChangeView={onChangeView} />
-      <AccessibilityPanel />
+      <AssistedModeButton />
 
       <IconButton label={COPY.addEvent} variant="solid" className={styles.fab} onClick={() => setCreating(true)}>
         <PlusIcon />

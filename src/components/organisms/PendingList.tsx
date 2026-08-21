@@ -2,7 +2,10 @@ import { useState } from 'react';
 import type { TimelineEvent } from '../../types/event';
 import { useIdentity } from '../../hooks/useIdentity';
 import { useEvents } from '../../hooks/useEvents';
+import { useAccessibility } from '../../hooks/useAccessibility';
+import { useSpeech } from '../../hooks/useSpeech';
 import { isMineAndPending, isPendingForMember } from '../../utils/validation';
+import { buildEventSpeechText } from '../../utils/speechText';
 import { COPY } from '../../constants/copy';
 import { PendingEventCard } from '../molecules/PendingEventCard';
 import { ConfirmDialog } from '../molecules/ConfirmDialog';
@@ -15,11 +18,13 @@ import styles from './PendingList.module.css';
 
 export function PendingList() {
   const { memberId } = useIdentity();
-  const { events, updateEvent, setValidation, deleteEvent } = useEvents();
+  const { events, loading, updateEvent, setValidation, deleteEvent } = useEvents();
+  const { settings } = useAccessibility();
+  const { speak } = useSpeech();
   const [editingEvent, setEditingEvent] = useState<TimelineEvent | null>(null);
   const [deletingEvent, setDeletingEvent] = useState<TimelineEvent | null>(null);
 
-  if (!memberId) return null;
+  if (!memberId || loading) return null;
 
   const mine = events.filter((event) => isMineAndPending(event, memberId));
   const toValidate = events.filter((event) => isPendingForMember(event, memberId));
@@ -38,6 +43,7 @@ export function PendingList() {
               <PendingEventCard
                 key={event.id}
                 event={event}
+                onListen={settings.assistedMode ? () => speak(buildEventSpeechText(event)) : undefined}
                 actions={
                   <>
                     <Button variant="ghost" onClick={() => setEditingEvent(event)}>
@@ -66,6 +72,7 @@ export function PendingList() {
               <PendingEventCard
                 key={event.id}
                 event={event}
+                onListen={settings.assistedMode ? () => speak(buildEventSpeechText(event)) : undefined}
                 actions={
                   <ValidationActions
                     onValidate={() => setValidation(event, memberId, 'validated')}

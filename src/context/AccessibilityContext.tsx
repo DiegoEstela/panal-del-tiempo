@@ -2,22 +2,16 @@ import { createContext, useCallback, useEffect, useMemo, useState, type ReactNod
 import { ACCESSIBILITY_STORAGE_KEY } from '../constants/config';
 
 export interface AccessibilitySettings {
-  largeText: boolean;
-  highContrast: boolean;
-  reduceMotion: boolean;
-  simplified: boolean;
+  assistedMode: boolean;
 }
 
 const DEFAULT_SETTINGS: AccessibilitySettings = {
-  largeText: false,
-  highContrast: false,
-  reduceMotion: false,
-  simplified: false,
+  assistedMode: false,
 };
 
 interface AccessibilityContextValue {
   settings: AccessibilitySettings;
-  toggle: (key: keyof AccessibilitySettings) => void;
+  toggleAssistedMode: () => void;
 }
 
 export const AccessibilityContext = createContext<AccessibilityContextValue | undefined>(undefined);
@@ -37,17 +31,18 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem(ACCESSIBILITY_STORAGE_KEY, JSON.stringify(settings));
     const root = document.documentElement;
-    root.dataset.textSize = settings.largeText ? 'large' : 'base';
-    root.dataset.contrast = settings.highContrast ? 'high' : 'normal';
-    root.dataset.motion = settings.reduceMotion ? 'reduce' : 'normal';
-    root.dataset.density = settings.simplified ? 'simplified' : 'normal';
+    const on = settings.assistedMode;
+    root.dataset.textSize = on ? 'large' : 'base';
+    root.dataset.contrast = on ? 'high' : 'normal';
+    root.dataset.motion = on ? 'reduce' : 'normal';
+    root.dataset.density = on ? 'simplified' : 'normal';
   }, [settings]);
 
-  const toggle = useCallback((key: keyof AccessibilitySettings) => {
-    setSettings((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggleAssistedMode = useCallback(() => {
+    setSettings((prev) => ({ ...prev, assistedMode: !prev.assistedMode }));
   }, []);
 
-  const value = useMemo(() => ({ settings, toggle }), [settings, toggle]);
+  const value = useMemo(() => ({ settings, toggleAssistedMode }), [settings, toggleAssistedMode]);
 
   return <AccessibilityContext.Provider value={value}>{children}</AccessibilityContext.Provider>;
 }

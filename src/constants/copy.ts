@@ -47,13 +47,13 @@ export const COPY = {
     message: 'Esta acción no se puede deshacer y desaparece para todo el panal.',
     confirm: 'Borrar',
   },
-  accessibility: {
-    panelTitle: 'Accesibilidad',
-    largeText: 'Texto grande',
-    highContrast: 'Alto contraste',
-    reduceMotion: 'Reducir movimiento',
-    simplified: 'Modo simplificado',
-    close: 'Cerrar',
+  assisted: {
+    enter: 'Modo simple',
+    exit: 'Salir del modo simple',
+    listen: 'Escuchar',
+    prev: 'Anterior',
+    next: 'Siguiente',
+    createdBy: 'Lo subió',
   },
   addEvent: 'Agregar recuerdo',
 } as const;

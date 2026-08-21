@@ -70,9 +70,9 @@ export function TimelineList({ events }: TimelineListProps) {
   useEffect(() => {
     if (!pendingScrollTarget) return;
     const element = document.getElementById(pendingScrollTarget);
-    element?.scrollIntoView({ behavior: settings.reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    element?.scrollIntoView({ behavior: settings.assistedMode ? 'auto' : 'smooth', block: 'start' });
     setPendingScrollTarget(null);
-  }, [pendingScrollTarget, settings.reduceMotion]);
+  }, [pendingScrollTarget, settings.assistedMode]);
 
   function toggleYear(year: number) {
     setCollapsedYears((prev) => {

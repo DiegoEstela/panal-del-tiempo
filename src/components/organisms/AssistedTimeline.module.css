@@ -1,0 +1,62 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  padding-bottom: var(--space-6);
+}
+
+.position {
+  align-self: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6) var(--space-5);
+}
+
+.title {
+  font-size: 2.2rem;
+  line-height: 1.2;
+}
+
+.description {
+  font-size: 1.3rem;
+  line-height: 1.6;
+}
+
+.listenButton {
+  margin-top: var(--space-3);
+  font-size: 1.2rem;
+  min-height: 64px;
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 480px;
+}
+
+.navButton {
+  flex: 1;
+  min-height: 64px;
+  font-size: 1.2rem;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-7);
+  text-align: center;
+}
