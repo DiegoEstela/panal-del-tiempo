@@ -1,5 +1,6 @@
 import type { TimelineEvent, ValidationStatus } from '../types/event';
 import type { MemberId } from '../types/member';
+import { VALIDATION_QUORUM } from '../constants/config';
 
 export function createInitialValidations(
   createdBy: MemberId,
@@ -24,9 +25,10 @@ export function isFullyValidated(
   validations: Record<MemberId, ValidationStatus>,
   createdBy: MemberId,
 ): boolean {
-  return (Object.keys(validations) as MemberId[])
+  const validatedCount = (Object.keys(validations) as MemberId[])
     .filter((id) => id !== createdBy)
-    .every((id) => validations[id] === 'validated');
+    .filter((id) => validations[id] === 'validated').length;
+  return validatedCount >= VALIDATION_QUORUM;
 }
 
 export function isPendingForMember(event: TimelineEvent, memberId: MemberId): boolean {

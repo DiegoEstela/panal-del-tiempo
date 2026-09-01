@@ -1,4 +1,15 @@
-import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, deleteField, doc, query, orderBy } from 'firebase/firestore';
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  deleteField,
+  doc,
+  query,
+  orderBy,
+  runTransaction,
+} from 'firebase/firestore';
 import type { EventsRepository } from './EventsRepository';
 import type { TimelineEvent, EventFormInput, ValidationStatus } from '../../types/event';
 import type { MemberId } from '../../types/member';
@@ -59,14 +70,24 @@ export function createFirestoreEventsRepository(): EventsRepository {
     },
 
     async setValidation(event: TimelineEvent, member: MemberId, status: ValidationStatus, comment?: string) {
-      const validations = { ...event.validations, [member]: status };
-      const comments = comment
-        ? [...event.comments, { id: createId(), author: member, text: comment, createdAt: Date.now() }]
-        : event.comments;
-      await updateDoc(doc(db, COLLECTION_NAME, event.id), {
-        validations,
-        comments,
-        status: isFullyValidated(validations, event.createdBy) ? 'validated' : event.status,
+      // Transacción: si dos personas validan casi al mismo tiempo, cada
+      // escritura tiene que partir del estado más reciente del servidor
+      // (no de la copia que tenga el cliente en memoria), para que la
+      // segunda no pise el voto que acaba de guardar la primera.
+      const ref = doc(db, COLLECTION_NAME, event.id);
+      await runTransaction(db, async (transaction) => {
+        const snapshot = await transaction.get(ref);
+        if (!snapshot.exists()) return;
+        const current = snapshot.data() as Omit<TimelineEvent, 'id'>;
+        const validations = { ...current.validations, [member]: status };
+        const comments = comment
+          ? [...current.comments, { id: createId(), author: member, text: comment, createdAt: Date.now() }]
+          : current.comments;
+        transaction.update(ref, {
+          validations,
+          comments,
+          status: isFullyValidated(validations, current.createdBy) ? 'validated' : current.status,
+        });
       });
     },
 

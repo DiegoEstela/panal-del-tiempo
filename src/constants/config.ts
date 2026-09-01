@@ -1,4 +1,8 @@
-export const VALIDATION_QUORUM = 3;
+// Cantidad de miembros (sin contar a quien lo creó) que tienen que validar
+// un recuerdo para que pase a la línea de tiempo. No hace falta que sean
+// los 3: alcanza con que 2 lo aprueben, porque no siempre van a estar los
+// 4 disponibles al mismo tiempo.
+export const VALIDATION_QUORUM = 2;
 
 export const MONTH_NAMES = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
