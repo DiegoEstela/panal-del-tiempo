@@ -4,10 +4,8 @@ import { BottomNav } from '../organisms/BottomNav';
 import { AssistedModeButton } from '../organisms/AssistedModeButton';
 import { EventForm } from '../organisms/EventForm';
 import { Modal } from '../molecules/Modal';
-import { IconButton } from '../atoms/IconButton';
 import { useIdentity } from '../../hooks/useIdentity';
 import { useEvents } from '../../hooks/useEvents';
-import { COPY } from '../../constants/copy';
 import styles from './MainLayout.module.css';
 
 interface MainLayoutProps {
@@ -23,14 +21,10 @@ export function MainLayout({ view, onChangeView, children }: MainLayoutProps) {
 
   return (
     <div className={styles.layout}>
-      <AppHeader view={view} onChangeView={onChangeView} />
+      <AppHeader view={view} onChangeView={onChangeView} onAddEvent={() => setCreating(true)} />
       <main className={styles.main}>{children}</main>
       <BottomNav view={view} onChangeView={onChangeView} />
       <AssistedModeButton />
-
-      <IconButton label={COPY.addEvent} variant="solid" className={styles.fab} onClick={() => setCreating(true)}>
-        <PlusIcon />
-      </IconButton>
 
       {creating && memberId && (
         <Modal onClose={() => setCreating(false)} labelledBy="new-event-title">
@@ -44,13 +38,5 @@ export function MainLayout({ view, onChangeView, children }: MainLayoutProps) {
         </Modal>
       )}
     </div>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
-    </svg>
   );
 }
