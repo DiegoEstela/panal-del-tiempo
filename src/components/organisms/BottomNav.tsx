@@ -8,9 +8,10 @@ import styles from './BottomNav.module.css';
 interface BottomNavProps {
   view: ViewKey;
   onChangeView: (view: ViewKey) => void;
+  onAddEvent: () => void;
 }
 
-export function BottomNav({ view, onChangeView }: BottomNavProps) {
+export function BottomNav({ view, onChangeView, onAddEvent }: BottomNavProps) {
   const { memberId } = useIdentity();
   const { events } = useEvents();
 
@@ -19,33 +20,40 @@ export function BottomNav({ view, onChangeView }: BottomNavProps) {
     : 0;
 
   return (
-    <nav className={styles.bar}>
-      <button
-        type="button"
-        className={[styles.tab, view === 'home' ? styles.active : ''].join(' ')}
-        onClick={() => onChangeView('home')}
-      >
-        <HomeIcon />
-        <span>{COPY.nav.home}</span>
-      </button>
-      <button
-        type="button"
-        className={[styles.tab, view === 'timeline' ? styles.active : ''].join(' ')}
-        onClick={() => onChangeView('timeline')}
-      >
-        <TimelineIcon />
-        <span>{COPY.nav.timeline}</span>
-      </button>
-      <button
-        type="button"
-        className={[styles.tab, view === 'pending' ? styles.active : ''].join(' ')}
-        onClick={() => onChangeView('pending')}
-      >
-        <PendingIcon />
-        <span>{COPY.nav.pending}</span>
-        {pendingCount > 0 && <span className={styles.count}>{pendingCount}</span>}
-      </button>
-    </nav>
+    <div className={styles.wrapper}>
+      <nav className={styles.bar}>
+        <button
+          type="button"
+          className={[styles.tab, view === 'home' ? styles.active : ''].join(' ')}
+          onClick={() => onChangeView('home')}
+        >
+          <HomeIcon />
+          <span>{COPY.nav.home}</span>
+        </button>
+        <button
+          type="button"
+          className={[styles.tab, styles.tabTimeline, view === 'timeline' ? styles.active : ''].join(' ')}
+          onClick={() => onChangeView('timeline')}
+        >
+          <span className={styles.timelineLabel}>{COPY.nav.timeline}</span>
+        </button>
+        <button
+          type="button"
+          className={[styles.tab, view === 'pending' ? styles.active : ''].join(' ')}
+          onClick={() => onChangeView('pending')}
+        >
+          <PendingIcon />
+          <span>{COPY.nav.pending}</span>
+          {pendingCount > 0 && <span className={styles.count}>{pendingCount}</span>}
+        </button>
+      </nav>
+
+      <div className={styles.addHalo}>
+        <button type="button" className={styles.addButton} onClick={onAddEvent} aria-label={COPY.addEvent}>
+          <PlusIcon />
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -63,10 +71,10 @@ function HomeIcon() {
   );
 }
 
-function TimelineIcon() {
+function PlusIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M4 12h16M4 6h10M4 18h7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" />
     </svg>
   );
 }

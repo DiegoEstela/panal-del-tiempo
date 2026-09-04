@@ -16,4 +16,7 @@
   .main {
     padding: var(--space-5) var(--space-4) calc(72px + var(--space-6));
   }
+  .mainNoFooter {
+    padding-bottom: var(--space-6);
+  }
 }

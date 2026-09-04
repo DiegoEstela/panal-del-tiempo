@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const SPANISH_LANG = 'es-ES';
 
@@ -9,6 +9,7 @@ function pickSpanishVoice(): SpeechSynthesisVoice | undefined {
 
 export function useSpeech() {
   const voiceRef = useRef<SpeechSynthesisVoice | undefined>(undefined);
+  const [speaking, setSpeaking] = useState(false);
   const supported = typeof window !== 'undefined' && 'speechSynthesis' in window;
 
   useEffect(() => {
@@ -33,6 +34,9 @@ export function useSpeech() {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = voiceRef.current?.lang ?? SPANISH_LANG;
       if (voiceRef.current) utterance.voice = voiceRef.current;
+      utterance.onstart = () => setSpeaking(true);
+      utterance.onend = () => setSpeaking(false);
+      utterance.onerror = () => setSpeaking(false);
       window.speechSynthesis.speak(utterance);
     },
     [supported],
@@ -41,7 +45,8 @@ export function useSpeech() {
   const stop = useCallback(() => {
     if (!supported) return;
     window.speechSynthesis.cancel();
+    setSpeaking(false);
   }, [supported]);
 
-  return { speak, stop, supported };
+  return { speak, stop, supported, speaking };
 }

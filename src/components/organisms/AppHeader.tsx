@@ -30,7 +30,7 @@ export function AppHeader({ view, onChangeView, onAddEvent }: AppHeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.brand}>
-        {currentMember && <Avatar member={currentMember} size="sm" />}
+        {currentMember && <Avatar member={currentMember} size="md" />}
         <Text as="h1" variant="subheading" className={styles.brandName}>
           {COPY.appName}
         </Text>

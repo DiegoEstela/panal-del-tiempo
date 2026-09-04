@@ -63,6 +63,7 @@ export const COPY = {
     enter: 'Modo simple',
     exit: 'Salir del modo simple',
     listen: 'Escuchar',
+    stop: 'Detener',
     prev: 'Anterior',
     next: 'Siguiente',
     createdBy: 'Lo subió',

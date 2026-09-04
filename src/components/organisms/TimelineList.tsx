@@ -15,10 +15,6 @@ interface TimelineListProps {
   events: TimelineEvent[];
 }
 
-type Row =
-  | { kind: 'year'; year: number; count: number; anchorId: string }
-  | { kind: 'event'; event: TimelineEvent; anchorId?: string };
-
 function monthAnchorId(year: number, month: number): string {
   return `panal-month-${year}-${month}`;
 }
@@ -31,7 +27,9 @@ export function TimelineList({ events }: TimelineListProps) {
   const { settings } = useAccessibility();
   const { memberId } = useIdentity();
   const { deleteEvent } = useEvents();
-  const [collapsedYears, setCollapsedYears] = useState<Set<number>>(new Set());
+  // Los años arrancan siempre colapsados: solo se ve el título con la
+  // cantidad de recuerdos hasta que el usuario toca alguno.
+  const [openYears, setOpenYears] = useState<Set<number>>(new Set());
   const [pendingScrollTarget, setPendingScrollTarget] = useState<string | null>(null);
   const [deletingEvent, setDeletingEvent] = useState<TimelineEvent | null>(null);
 
@@ -51,22 +49,6 @@ export function TimelineList({ events }: TimelineListProps) {
     return Array.from(map.values());
   }, [events]);
 
-  const rows = useMemo<Row[]>(() => {
-    const seenMonths = new Set<string>();
-    return groups.flatMap(([year, yearEvents]) => {
-      const yearRow: Row = { kind: 'year', year, count: yearEvents.length, anchorId: yearAnchorId(year) };
-      if (collapsedYears.has(year)) return [yearRow];
-
-      const eventRows: Row[] = yearEvents.map((event) => {
-        const monthKey = `${event.year}-${event.month}`;
-        const isFirstOfMonth = !seenMonths.has(monthKey);
-        seenMonths.add(monthKey);
-        return { kind: 'event', event, anchorId: isFirstOfMonth ? monthAnchorId(event.year, event.month) : undefined };
-      });
-      return [yearRow, ...eventRows];
-    });
-  }, [groups, collapsedYears]);
-
   useEffect(() => {
     if (!pendingScrollTarget) return;
     const element = document.getElementById(pendingScrollTarget);
@@ -75,7 +57,7 @@ export function TimelineList({ events }: TimelineListProps) {
   }, [pendingScrollTarget, settings.assistedMode]);
 
   function toggleYear(year: number) {
-    setCollapsedYears((prev) => {
+    setOpenYears((prev) => {
       const next = new Set(prev);
       if (next.has(year)) next.delete(year);
       else next.add(year);
@@ -84,10 +66,10 @@ export function TimelineList({ events }: TimelineListProps) {
   }
 
   function handleDateSelect(option: DateOption) {
-    setCollapsedYears((prev) => {
-      if (!prev.has(option.year)) return prev;
+    setOpenYears((prev) => {
+      if (prev.has(option.year)) return prev;
       const next = new Set(prev);
-      next.delete(option.year);
+      next.add(option.year);
       return next;
     });
     setPendingScrollTarget(monthAnchorId(option.year, option.month));
@@ -105,53 +87,48 @@ export function TimelineList({ events }: TimelineListProps) {
     <div className={styles.wrapper}>
       <DateFinder options={dateOptions} onSelect={handleDateSelect} />
 
-      <ol className={styles.timeline}>
-        {rows.map((row, index) => {
-          const isFirst = index === 0;
-          const isLast = index === rows.length - 1;
-          const railClasses = [styles.rail, isFirst && styles.railFirst, isLast && styles.railLast]
-            .filter(Boolean)
-            .join(' ');
-
-          if (row.kind === 'year') {
-            const collapsed = collapsedYears.has(row.year);
-            return (
-              <li key={`year-${row.year}`} id={row.anchorId} className={styles.row}>
-                <div className={railClasses}>
-                  <span className={styles.yearNode} />
-                </div>
-                <button
-                  type="button"
-                  className={styles.yearHeader}
-                  onClick={() => toggleYear(row.year)}
-                  aria-expanded={!collapsed}
-                >
-                  <Text as="span" variant="heading">
-                    {row.year}
-                  </Text>
-                  <span className={styles.yearCount}>{row.count}</span>
-                  <ChevronIcon collapsed={collapsed} />
-                </button>
-              </li>
-            );
-          }
+      <div className={styles.yearList}>
+        {groups.map(([year, yearEvents]) => {
+          const isOpen = openYears.has(year);
+          const seenMonths = new Set<number>();
 
           return (
-            <li key={row.event.id} id={row.anchorId} className={styles.row}>
-              <div className={railClasses}>
-                <span className={styles.eventNode} />
-              </div>
-              <div className={styles.eventContent}>
-                <EventCard
-                  event={row.event}
-                  canDelete={row.event.createdBy === memberId}
-                  onDelete={() => setDeletingEvent(row.event)}
-                />
-              </div>
-            </li>
+            <section key={year} id={yearAnchorId(year)} className={styles.yearGroup}>
+              <button
+                type="button"
+                className={styles.yearHeader}
+                onClick={() => toggleYear(year)}
+                aria-expanded={isOpen}
+              >
+                <Text as="span" variant="heading" className={styles.yearNumber}>
+                  {year}
+                </Text>
+                <span className={styles.yearCount}>{yearEvents.length}</span>
+                <ChevronIcon open={isOpen} />
+              </button>
+
+              {isOpen && (
+                <ul className={styles.eventList}>
+                  {yearEvents.map((event) => {
+                    const isFirstOfMonth = !seenMonths.has(event.month);
+                    seenMonths.add(event.month);
+                    return (
+                      <li key={event.id} id={isFirstOfMonth ? monthAnchorId(event.year, event.month) : undefined}>
+                        <EventCard
+                          event={event}
+                          canDelete={event.createdBy === memberId}
+                          onDelete={() => setDeletingEvent(event)}
+                          showMonthTile={false}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </section>
           );
         })}
-      </ol>
+      </div>
 
       {deletingEvent && (
         <ConfirmDialog
@@ -173,7 +150,7 @@ export function TimelineList({ events }: TimelineListProps) {
   );
 }
 
-function ChevronIcon({ collapsed }: { collapsed: boolean }) {
+function ChevronIcon({ open }: { open: boolean }) {
   return (
     <svg
       width="18"
@@ -182,7 +159,7 @@ function ChevronIcon({ collapsed }: { collapsed: boolean }) {
       fill="none"
       aria-hidden="true"
       className={styles.chevron}
-      style={{ transform: collapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }}
+      style={{ transform: open ? 'rotate(0deg)' : 'rotate(-90deg)' }}
     >
       <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
