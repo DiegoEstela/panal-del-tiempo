@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { TimelineEvent } from '../../types/event';
 import { COPY } from '../../constants/copy';
-import { MONTH_NAMES } from '../../constants/config';
 import { useIdentity } from '../../hooks/useIdentity';
 import { useEvents } from '../../hooks/useEvents';
 import { EventCard } from '../molecules/EventCard';
@@ -37,10 +36,9 @@ export function OnThisDay({ events, onGoToTimeline }: OnThisDayProps) {
 
   return (
     <div className={styles.wrapper}>
-      <Text as="h1" variant="title">
+      <Text as="h1" variant="title" className={styles.title}>
         {COPY.home.title}
       </Text>
-      <Text color="secondary">{MONTH_NAMES[CURRENT_MONTH - 1]}</Text>
 
       {matches.length === 0 ? (
         <div className={styles.empty}>
@@ -54,7 +52,12 @@ export function OnThisDay({ events, onGoToTimeline }: OnThisDayProps) {
               <Text as="p" variant="caption" color="secondary" className={styles.yearLabel}>
                 {yearsAgoLabel(event.year)}
               </Text>
-              <EventCard event={event} canDelete={event.createdBy === memberId} onDelete={() => setDeletingEvent(event)} />
+              <EventCard
+                event={event}
+                canDelete={event.createdBy === memberId}
+                onDelete={() => setDeletingEvent(event)}
+                showMonthTile={false}
+              />
             </li>
           ))}
         </ul>

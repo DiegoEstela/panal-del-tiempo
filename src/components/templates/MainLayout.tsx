@@ -1,7 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { AppHeader, type ViewKey } from '../organisms/AppHeader';
 import { BottomNav } from '../organisms/BottomNav';
-import { AssistedModeButton } from '../organisms/AssistedModeButton';
 import { EventForm } from '../organisms/EventForm';
 import { Modal } from '../molecules/Modal';
 import { useIdentity } from '../../hooks/useIdentity';
@@ -24,7 +23,6 @@ export function MainLayout({ view, onChangeView, children }: MainLayoutProps) {
       <AppHeader view={view} onChangeView={onChangeView} onAddEvent={() => setCreating(true)} />
       <main className={styles.main}>{children}</main>
       <BottomNav view={view} onChangeView={onChangeView} />
-      <AssistedModeButton />
 
       {creating && memberId && (
         <Modal onClose={() => setCreating(false)} labelledBy="new-event-title">

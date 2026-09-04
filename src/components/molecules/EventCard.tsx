@@ -12,16 +12,17 @@ interface EventCardProps {
   event: TimelineEvent;
   canDelete?: boolean;
   onDelete?: () => void;
+  showMonthTile?: boolean;
 }
 
-export function EventCard({ event, canDelete, onDelete }: EventCardProps) {
+export function EventCard({ event, canDelete, onDelete, showMonthTile = true }: EventCardProps) {
   const [expanded, setExpanded] = useState(false);
   const creator = getMember(event.createdBy);
 
   return (
     <article className={styles.card}>
       <button type="button" className={styles.trigger} onClick={() => setExpanded((prev) => !prev)} aria-expanded={expanded}>
-        <HexTile tone="primary">{MONTH_NAMES[event.month - 1].slice(0, 3)}</HexTile>
+        {showMonthTile && <HexTile tone="primary">{MONTH_NAMES[event.month - 1].slice(0, 3)}</HexTile>}
         <div className={styles.content}>
           <Text variant="subheading">{event.title}</Text>
           <Text variant="caption" color="secondary">
@@ -31,7 +32,7 @@ export function EventCard({ event, canDelete, onDelete }: EventCardProps) {
         <Avatar member={creator} size="sm" />
       </button>
       {expanded && (
-        <div className={styles.details}>
+        <div className={[styles.details, !showMonthTile && styles.detailsFlush].filter(Boolean).join(' ')}>
           {event.photoURL && <img src={event.photoURL} alt="" className={styles.photo} />}
           <Text color="secondary">{event.description}</Text>
           {canDelete && onDelete && (

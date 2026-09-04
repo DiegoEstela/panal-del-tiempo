@@ -1,27 +1,32 @@
 import { useAccessibility } from '../../hooks/useAccessibility';
+import { IconButton } from '../atoms/IconButton';
 import { COPY } from '../../constants/copy';
 import styles from './AssistedModeButton.module.css';
 
+/**
+ * Botón compacto en el header (arriba a la derecha) que prende/apaga el
+ * Modo Simple: navegación de a un recuerdo por vez con lectura en voz alta.
+ */
 export function AssistedModeButton() {
   const { settings, toggleAssistedMode } = useAccessibility();
   const { assistedMode } = settings;
 
   return (
-    <button
-      type="button"
+    <IconButton
+      label={assistedMode ? COPY.assisted.exit : COPY.assisted.enter}
+      variant="solid"
       className={[styles.button, assistedMode ? styles.active : ''].join(' ')}
       onClick={toggleAssistedMode}
       aria-pressed={assistedMode}
     >
       <SpeakerIcon />
-      <span>{assistedMode ? COPY.assisted.exit : COPY.assisted.enter}</span>
-    </button>
+    </IconButton>
   );
 }
 
 function SpeakerIcon() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M4 9v6h4l5 4V5L8 9H4z"
         stroke="currentColor"

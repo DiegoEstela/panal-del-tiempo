@@ -9,7 +9,7 @@
   width: 100%;
   max-width: 760px;
   margin: 0 auto;
-  padding: var(--space-6) var(--space-5) calc(var(--space-7) * 2);
+  padding: var(--space-6) var(--space-5);
 }
 
 @media (max-width: 640px) {

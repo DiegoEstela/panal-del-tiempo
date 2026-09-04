@@ -1,38 +1,14 @@
 .button {
-  position: fixed;
-  bottom: var(--space-6);
-  left: var(--space-5);
-  z-index: 40;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: 56px;
-  padding: 0 var(--space-5);
-  border-radius: var(--radius-full);
-  background: var(--gradient-primary);
-  color: var(--color-text-inverted);
-  font-size: var(--font-size-md);
-  font-weight: 700;
-  box-shadow: var(--shadow-md);
   transition:
     transform var(--transition-fast),
     box-shadow var(--transition-base),
     background var(--transition-base);
 }
 
-.button:active {
-  transform: scale(0.97);
-}
 .button:hover {
   box-shadow: var(--shadow-glow);
 }
 
 .active {
   background: var(--gradient-accent);
-}
-
-@media (max-width: 640px) {
-  .button {
-    bottom: calc(72px + var(--space-4));
-  }
 }

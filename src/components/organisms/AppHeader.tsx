@@ -6,6 +6,7 @@ import { COPY } from '../../constants/copy';
 import { Avatar } from '../atoms/Avatar';
 import { IconButton } from '../atoms/IconButton';
 import { Text } from '../atoms/Text';
+import { AssistedModeButton } from './AssistedModeButton';
 import styles from './AppHeader.module.css';
 
 export type ViewKey = 'home' | 'timeline' | 'pending';
@@ -35,6 +36,12 @@ export function AppHeader({ view, onChangeView, onAddEvent }: AppHeaderProps) {
         </Text>
       </div>
 
+      <div className={styles.center}>
+        <IconButton label={COPY.addEvent} variant="solid" onClick={onAddEvent}>
+          <PlusIcon />
+        </IconButton>
+      </div>
+
       <div className={styles.actions}>
         <nav className={styles.nav}>
           <button
@@ -61,9 +68,7 @@ export function AppHeader({ view, onChangeView, onAddEvent }: AppHeaderProps) {
           </button>
         </nav>
 
-        <IconButton label={COPY.addEvent} variant="solid" onClick={onAddEvent}>
-          <PlusIcon />
-        </IconButton>
+        <AssistedModeButton />
       </div>
     </header>
   );

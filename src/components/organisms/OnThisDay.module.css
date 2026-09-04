@@ -4,6 +4,10 @@
   gap: var(--space-1);
 }
 
+.title {
+  text-align: center;
+}
+
 .list {
   display: flex;
   flex-direction: column;
